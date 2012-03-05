@@ -96,7 +96,7 @@ describe('client.test.js', function() {
   });
 
   describe('#taobao_user_get()', function() {
-    it('#should return user', function(done) {
+    it('should return user', function(done) {
       client.taobao_user_get({ fields: 'user_id,nick', nick: '苏千' }, function(err, user) {
         should.not.exist(err);
         user.should.have.keys(['user_id', 'nick']);
@@ -106,7 +106,7 @@ describe('client.test.js', function() {
       });
     });
 
-    it('#should return null when nick not exists', function(done) {
+    it('should return null when nick not exists', function(done) {
       client.taobao_user_get({ fields: 'user_id,nick', nick: '苏千notexists' }, function(err, user) {
         should.not.exist(err);
         should.not.exist(user);
@@ -114,7 +114,7 @@ describe('client.test.js', function() {
       });
     });
 
-    it('#should throw error when nick miss', function() {
+    it('should throw error when nick miss', function() {
       (function() {
         client.taobao_user_get({ fields: 'user_id,nick' }, function(err, user) {});
       }).should.throw('`nick` required');
@@ -123,7 +123,7 @@ describe('client.test.js', function() {
   });
 
   describe('#taobao_users_get()', function() {
-    it('#should return users list', function(done) {
+    it('should return users list', function(done) {
       client.taobao_users_get({ fields: 'user_id,nick', nicks: '苏千,玄澄' }, function(err, users) {
         should.not.exist(err);
         users.should.length(2);
