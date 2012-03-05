@@ -1,6 +1,6 @@
 SRC = $(shell find lib -type f -name "*.js")
 TESTS = test/*.test.js
-TESTTIMEOUT = 5000
+TESTTIMEOUT = 10000
 REPORTER = spec
 
 test:

@@ -12,12 +12,13 @@ var libpath = process.env.JSCOV ? '../lib-cov' : '../lib';
 var top = require(libpath);
 var should = require('should');
 
-var config = require('../config');
+var REST_URL = 'http://gw.api.tbsandbox.com/router/rest';
 
 describe('client.test.js', function() {
   var client = top.createClient({
-    appkey: config.appkey,
-    appsecret: config.appsecret
+    appkey: '12532086',
+    appsecret: 'sandboxcdf22093ff4bd9e8eef55bce6',
+    REST_URL: REST_URL
   });
 
   describe('#new Client()', function() {
@@ -67,13 +68,13 @@ describe('client.test.js', function() {
       client.request({
         method: 'taobao.user.get',
         fields: 'user_id,nick,seller_credit',
-        nick: '苏千'
+        nick: 'alipublic01'
       }, function(err, result) {
         should.not.exist(err);
         var user = result.user_get_response.user;
         user.should.have.keys(['user_id', 'nick', 'seller_credit']);
-        user.nick.should.equal('苏千');
-        user.user_id.should.equal(665377421);
+        user.nick.should.equal('alipublic01');
+        user.user_id.should.equal(175754351);
         done();
       });
     });
@@ -97,17 +98,17 @@ describe('client.test.js', function() {
 
   describe('#taobao_user_get()', function() {
     it('should return user', function(done) {
-      client.taobao_user_get({ fields: 'user_id,nick', nick: '苏千' }, function(err, user) {
+      client.taobao_user_get({ fields: 'user_id,nick', nick: 'alipublic01' }, function(err, user) {
         should.not.exist(err);
         user.should.have.keys(['user_id', 'nick']);
-        user.nick.should.equal('苏千');
-        user.user_id.should.equal(665377421);
+        user.nick.should.equal('alipublic01');
+        user.user_id.should.equal(175754351);
         done();
       });
     });
 
     it('should return null when nick not exists', function(done) {
-      client.taobao_user_get({ fields: 'user_id,nick', nick: '苏千notexists' }, function(err, user) {
+      client.taobao_user_get({ fields: 'user_id,nick', nick: 'alipublic01notexists' }, function(err, user) {
         should.not.exist(err);
         should.not.exist(user);
         done();
@@ -124,42 +125,45 @@ describe('client.test.js', function() {
 
   describe('#taobao_users_get()', function() {
     it('should return users list', function(done) {
-      client.taobao_users_get({ fields: 'user_id,nick', nicks: '苏千,玄澄' }, function(err, users) {
+      client.taobao_users_get({ fields: 'user_id,nick', nicks: 'alipublic01,sandbox_c_1' }, function(err, users) {
         should.not.exist(err);
         users.should.length(2);
         for (var i = users.length; i--; ) {
           var user = users[i];
           user.should.have.keys(['user_id', 'nick']);
-          user.nick.should.equal(i === 0 ? '苏千' : '玄澄');
-          user.user_id.should.equal(i === 0 ? 665377421 : 143267823);
+          user.nick.should.equal(i === 0 ? 'alipublic01' : 'sandbox_c_1');
+          user.user_id.should.equal(i === 0 ? 175754351 : 175978269);
         }
         done();
       });
     });
 
     it('#should return 4 length list when nicks are all same', function(done) {
-      client.taobao_users_get({ fields: 'user_id,nick', nicks: '苏千,苏千,苏千,苏千' }, function(err, users) {
+      client.taobao_users_get({ 
+        fields: 'user_id,nick', 
+        nicks: 'alipublic01,alipublic01,alipublic01,alipublic01' 
+      }, function(err, users) {
         should.not.exist(err);
         users.should.length(4);
         for (var i = users.length; i--; ) {
           var user = users[i];
           user.should.have.keys(['user_id', 'nick']);
-          user.nick.should.equal('苏千');
-          user.user_id.should.equal(665377421);
+          user.nick.should.equal('alipublic01');
+          user.user_id.should.equal(175754351);
         }
         done();
       });
     });
 
     it('#should return 1 length list when one nick not exists', function(done) {
-      client.taobao_users_get({ fields: 'user_id,nick', nicks: '苏千,苏千notexists' }, function(err, users) {
+      client.taobao_users_get({ fields: 'user_id,nick', nicks: 'alipublic01,苏千notexists' }, function(err, users) {
         should.not.exist(err);
         users.should.length(1);
         for (var i = users.length; i--; ) {
           var user = users[i];
           user.should.have.keys(['user_id', 'nick']);
-          user.nick.should.equal('苏千');
-          user.user_id.should.equal(665377421);
+          user.nick.should.equal('alipublic01');
+          user.user_id.should.equal(175754351);
         }
         done();
       });
