@@ -14,30 +14,30 @@ var should = require('should');
 
 var REST_URL = 'http://gw.api.tbsandbox.com/router/rest';
 
-describe('client.test.js', function() {
+describe('client.test.js', function () {
   var client = top.createClient({
     appkey: '12532086',
     appsecret: 'sandboxcdf22093ff4bd9e8eef55bce6',
     REST_URL: REST_URL
   });
 
-  describe('#new Client()', function() {
-    it('should throw error when miss appkey or appsecret', function() {
-      (function() {
+  describe('#new Client()', function () {
+    it('should throw error when miss appkey or appsecret', function () {
+      (function () {
         top.createClient();
       }).should.throw('appkey or appsecret need!');
-      (function() {
+      (function () {
         top.createClient({ appkey: 'test' });
       }).should.throw('appkey or appsecret need!');
-      (function() {
+      (function () {
         top.createClient({ appsecret: 'test' });
       }).should.throw('appkey or appsecret need!');
     });
   });
 
-  describe('#sign() http://open.taobao.com/doc/detail.htm?id=111#s6', function() {
+  describe('#sign() http://open.taobao.com/doc/detail.htm?id=111#s6', function () {
 
-    it('should equal 990FD28323F67A1EEC29336EDF373C0E', function() {
+    it('should equal 990FD28323F67A1EEC29336EDF373C0E', function () {
       var c = top.createClient({
         appkey: 'test',
         appsecret: 'test'
@@ -56,20 +56,20 @@ describe('client.test.js', function() {
     });
   });
 
-  describe('#timestamp()', function() {
-    it('should return yyyy-MM-dd HH:mm:ss format', function() {
+  describe('#timestamp()', function () {
+    it('should return yyyy-MM-dd HH:mm:ss format', function () {
       var s = client.timestamp();
       s.should.match(/\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}/);
     });
   });
 
-  describe('#request()', function() {
-    it('should request success', function(done) {
+  describe('#request()', function () {
+    it('should request success', function (done) {
       client.request({
         method: 'taobao.user.get',
         fields: 'user_id,nick,seller_credit',
         nick: 'alipublic01'
-      }, function(err, result) {
+      }, function (err, result) {
         should.not.exist(err);
         var user = result.user_get_response.user;
         user.should.have.keys(['user_id', 'nick', 'seller_credit']);
@@ -79,14 +79,14 @@ describe('client.test.js', function() {
       });
     });
 
-    it('should throw error when method miss', function() {
-      (function() {
+    it('should throw error when method miss', function () {
+      (function () {
         client.request({});
       }).should.throw('`method` required');
     });
 
-    it('should return error when method wrong', function(done) {
-      client.request({ method: 'not_exists' }, function(err, data) {
+    it('should return error when method wrong', function (done) {
+      client.request({ method: 'not_exists' }, function (err, data) {
         should.exist(err);
         err.message.should.equal('22: Invalid method');
         err.code.should.equal(22);
@@ -96,9 +96,10 @@ describe('client.test.js', function() {
     });
   });
 
-  describe('#taobao_user_get()', function() {
-    it('should return user', function(done) {
-      client.taobao_user_get({ fields: 'user_id,nick', nick: 'alipublic01' }, function(err, user) {
+  describe('#taobao_user_get()', function () {
+    it('should return user', function (done) {
+      client.taobao_user_get({ fields: 'user_id,nick', nick: 'alipublic01' }, 
+      function (err, user) {
         should.not.exist(err);
         user.should.have.keys(['user_id', 'nick']);
         user.nick.should.equal('alipublic01');
@@ -107,25 +108,27 @@ describe('client.test.js', function() {
       });
     });
 
-    it('should return null when nick not exists', function(done) {
-      client.taobao_user_get({ fields: 'user_id,nick', nick: 'alipublic01notexists' }, function(err, user) {
+    it('should return null when nick not exists', function (done) {
+      client.taobao_user_get({ fields: 'user_id,nick', nick: 'alipublic01notexists' }, 
+      function (err, user) {
         should.not.exist(err);
         should.not.exist(user);
         done();
       });
     });
 
-    it('should throw error when nick miss', function() {
-      (function() {
-        client.taobao_user_get({ fields: 'user_id,nick' }, function(err, user) {});
+    it('should throw error when nick miss', function () {
+      (function () {
+        client.taobao_user_get({ fields: 'user_id,nick' }, function (err, user) {});
       }).should.throw('`nick` required');
     });
 
   });
 
-  describe('#taobao_users_get()', function() {
-    it('should return users list', function(done) {
-      client.taobao_users_get({ fields: 'user_id,nick', nicks: 'alipublic01,sandbox_c_1' }, function(err, users) {
+  describe('#taobao_users_get()', function () {
+    it('should return users list', function (done) {
+      client.taobao_users_get({ fields: 'user_id,nick', nicks: 'alipublic01,sandbox_c_1' }, 
+      function (err, users) {
         should.not.exist(err);
         users.should.length(2);
         for (var i = users.length; i--; ) {
@@ -138,11 +141,11 @@ describe('client.test.js', function() {
       });
     });
 
-    it('#should return 4 length list when nicks are all same', function(done) {
+    it('#should return 4 length list when nicks are all same', function (done) {
       client.taobao_users_get({ 
         fields: 'user_id,nick', 
         nicks: 'alipublic01,alipublic01,alipublic01,alipublic01' 
-      }, function(err, users) {
+      }, function (err, users) {
         should.not.exist(err);
         users.should.length(4);
         for (var i = users.length; i--; ) {
@@ -155,8 +158,9 @@ describe('client.test.js', function() {
       });
     });
 
-    it('#should return 1 length list when one nick not exists', function(done) {
-      client.taobao_users_get({ fields: 'user_id,nick', nicks: 'alipublic01,苏千notexists' }, function(err, users) {
+    it('#should return 1 length list when one nick not exists', function (done) {
+      client.taobao_users_get({ fields: 'user_id,nick', nicks: 'alipublic01,苏千notexists' }, 
+      function (err, users) {
         should.not.exist(err);
         users.should.length(1);
         for (var i = users.length; i--; ) {
@@ -169,29 +173,33 @@ describe('client.test.js', function() {
       });
     });
 
-    it('#should return [] no nick exists', function(done) {
-      client.taobao_users_get({ fields: 'user_id,nick', nicks: '苏千苏千notexists2,苏千notexists' }, function(err, users) {
+    it('#should return [] no nick exists', function (done) {
+      client.taobao_users_get({ fields: 'user_id,nick', nicks: '苏千苏千notexists2,苏千notexists' }, 
+      function (err, users) {
         should.not.exist(err);
         users.should.length(0);
         done();
       });
     });
 
-    it('#should throw error when nicks miss', function() {
-      (function() {
-        client.taobao_users_get({ fields: 'user_id,nick' }, function(err, user) {});
+    it('#should throw error when nicks miss', function () {
+      (function () {
+        client.taobao_users_get({ fields: 'user_id,nick' }, function (err, user) {});
       }).should.throw('`nicks` required');
     });
+  });
 
-    //api permission required
+  describe('tmall_selected_items_search()', function () {
+    // api permission required
     it('should return items', function (done) {
-      client.tmall_selected_items_search({cid: 50016349}, function(err, items){
+      client.tmall_selected_items_search({cid: 50016349}, function (err, items) {
         should.not.exist(err);
-        client.taobao_item_get({num_iid:items[0].num_iid, fields:'item_img.url,title,price'}, function(err, item){
+        client.taobao_item_get({num_iid:items[0].num_iid, fields:'item_img.url,title,price'}, 
+        function (err, item){
           done();
         });
       }); 
     });
-
   });
+
 });
