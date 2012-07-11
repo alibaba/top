@@ -183,5 +183,15 @@ describe('client.test.js', function() {
       }).should.throw('`nicks` required');
     });
 
+    //api permission required
+    it('should return items', function (done) {
+      client.tmall_selected_items_search({cid: 50016349}, function(err, items){
+        should.not.exist(err);
+        client.taobao_item_get({num_iid:items[0].num_iid, fields:'item_img.url,title,price'}, function(err, item){
+          done();
+        });
+      }); 
+    });
+
   });
 });
