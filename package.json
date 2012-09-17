@@ -5,7 +5,7 @@
   "keywords": ["top", "taobao", "open api", "top client"],
   "author": "fengmk2 <fengmk2@gmail.com> (http://github.com/fengmk2)",
   "homepage": "http://github.com/fengmk2/top",
-  "main": "./lib/index.js",
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/fengmk2/top.git"
