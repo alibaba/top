@@ -1,6 +1,6 @@
 {
   "name": "top",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Taobao Open API Client.",
   "keywords": ["top", "taobao", "open api", "top client"],
   "author": "fengmk2 <fengmk2@gmail.com> (http://github.com/fengmk2)",
@@ -14,12 +14,12 @@
     "test": "make test"
   },
   "dependencies": {
-    "urllib": ">=0.2.0",
-    "moment": ">=1.0.0"
+    "urllib": ">=0.2.8",
+    "moment": ">=1.7.0"
   },
   "devDependencies": {
-    "should": "0.6.0",
-    "mocha": "0.14.0"
+    "should": "*",
+    "mocha": "*"
   },
   "engines": {
     "node": ">=v0.6.10"
