@@ -1,0 +1,17 @@
+{
+    "user_buyer_get_response": {
+        "user": {
+            "nick": "sandbox_c_1",
+            "sex": "m",
+            "buyer_credit": {
+                "level": 1,
+                "score": 1,
+                "total_num": 1,
+                "good_num": 1
+            },
+            "avatar": "http://assets.taobaocdn.com/app/sns/img/default/avatar-120.png",
+            "has_shop": true,
+            "vip_info": "v1"
+        }
+    }
+}

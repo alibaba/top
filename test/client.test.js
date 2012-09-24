@@ -133,19 +133,31 @@ describe('client.test.js', function () {
     });
   });
 
-  describe('taobao_user_get()', function () {
-    it('should return user', function (done) {
-      client.taobao_user_get({ fields: 'seller_credit,nick', nick: 'sandbox_c_1' }, 
-      function (err, user) {
+  describe('taobao_user_buyer_get()', function () {
+    var _request = urllib.request;
+    afterEach(function () {
+      urllib.request = _request;
+    });
+    it('should return buyer', function (done) {
+      urllib.request = function (url, options, callback) {
+        process.nextTick(function () {
+          callback(null, JSON.stringify(require('./fixtures/user_buyer_get_response.json')));
+        });
+      };
+      client.taobao_user_buyer_get({
+        session: 'mock',
+        fields: 'nick,sex,buyer_credit,avatar,has_shop,vip_info', 
+        nick: 'sandbox_c_1'
+      }, function (err, user) {
         should.not.exist(err);
-        user.should.have.keys(['seller_credit', 'nick']);
+        user.should.have.keys('nick,sex,buyer_credit,avatar,has_shop,vip_info'.split(','));
         user.nick.should.equal('sandbox_c_1');
         done();
       });
     });
 
     it('should return null when nick not exists', function (done) {
-      client.taobao_user_get({ fields: 'user_id,nick', nick: 'alipublic01notexists' }, 
+      client.taobao_user_buyer_get({session: 'mock', fields: 'sex,nick', nick: 'alipublic01notexists'}, 
       function (err, user) {
         should.not.exist(err);
         should.not.exist(user);
@@ -155,10 +167,83 @@ describe('client.test.js', function () {
 
     it('should throw error when nick miss', function () {
       (function () {
-        client.taobao_user_get({ fields: 'user_id,nick' }, function (err, user) {});
-      }).should.throw('`nick` required');
+        client.taobao_user_buyer_get({fields: 'sex,nick'}, function (err, user) {});
+      }).should.throw('`session` required');
+    });
+  });
+
+  describe('taobao_user_seller_get()', function () {
+    var _request = urllib.request;
+    afterEach(function () {
+      urllib.request = _request;
+    });
+    it('should return seller', function (done) {
+      var fields = 'user_id,nick,sex,seller_credit,type,has_more_pic,item_img_num,item_img_size,prop_img_num,prop_img_size,auto_repost,promoted_type,status,alipay_bind,consumer_protection,avatar,liangpin,sign_food_seller_promise,has_shop,is_lightning_consignment,has_sub_stock,is_golden_seller,vip_info,magazine_subscribe,vertical_market,online_gaming';
+      urllib.request = function (url, options, callback) {
+        process.nextTick(function () {
+          var user = require('./fixtures/user_seller_get_response.json');
+          var keys = fields.split(',');
+          var seller = {user_seller_get_response: {user: {}}};
+          for (var i = 0; i < keys.length; i++) {
+            var k = keys[i];
+            seller.user_seller_get_response.user[k] = user.user_seller_get_response.user[k];
+          }
+          callback(null, JSON.stringify(seller));
+        });
+      };
+      client.taobao_user_seller_get({
+        session: 'mock',
+        fields: fields, 
+        nick: 'hz0799'
+      }, function (err, user) {
+        should.not.exist(err);
+        user.should.have.keys(fields.split(','));
+        user.nick.should.equal('hz0799');
+        done();
+      });
     });
 
+    it('should return null when nick not exists', function (done) {
+      client.taobao_user_seller_get({session: 'mock', fields: 'sex,nick', nick: 'alipublic01notexists'}, 
+      function (err, user) {
+        should.not.exist(err);
+        should.not.exist(user);
+        done();
+      });
+    });
+
+    it('should throw error when nick miss', function () {
+      (function () {
+        client.taobao_user_seller_get({fields: 'sex,nick'}, function (err, user) {});
+      }).should.throw('`session` required');
+    });
+  });
+
+  describe('taobao_user_get()', function () {
+    it('should return user', function (done) {
+      client.taobao_user_get({fields: 'seller_credit,nick', nick: 'sandbox_c_1'}, 
+      function (err, user) {
+        should.not.exist(err);
+        user.should.have.keys(['seller_credit', 'nick']);
+        user.nick.should.equal('sandbox_c_1');
+        done();
+      });
+    });
+
+    it('should return null when nick not exists', function (done) {
+      client.taobao_user_get({fields: 'user_id,nick', nick: 'alipublic01notexists'}, 
+      function (err, user) {
+        should.not.exist(err);
+        should.not.exist(user);
+        done();
+      });
+    });
+
+    it('should throw error when nick miss', function () {
+      (function () {
+        client.taobao_user_get({fields: 'user_id,nick'}, function (err, user) {});
+      }).should.throw('`nick` required');
+    });
   });
 
   describe('taobao_users_get()', function () {

@@ -1,0 +1,56 @@
+{
+    "user_seller_get_response": {
+        "user": {
+            "user_id": 10001,
+            "uid": "10001",
+            "nick": "hz0799",
+            "sex": "m",
+            "buyer_credit": {
+                "level": 1,
+                "score": 1,
+                "total_num": 1,
+                "good_num": 1
+            },
+            "seller_credit": {
+                "level": 1,
+                "score": 1,
+                "total_num": 1,
+                "good_num": 1
+            },
+            "location": {
+                "zip": "310000",
+                "address": "华星路99号创业大厦",
+                "city": "杭州",
+                "state": "浙江",
+                "country": "中国",
+                "district": "西湖区"
+            },
+            "created": "2000-01-01 00:00:00",
+            "last_visit": "2000-01-01 00:00:00",
+            "birthday": "2000-01-01 00:00:00",
+            "type": "B",
+            "has_more_pic": true,
+            "item_img_num": 5,
+            "item_img_size": 1024,
+            "prop_img_num": 5,
+            "prop_img_size": 1024,
+            "auto_repost": "unlimited",
+            "promoted_type": "authentication",
+            "status": "normal",
+            "alipay_bind": "bind",
+            "consumer_protection": true,
+            "avatar": "http://assets.taobaocdn.com/app/sns/img/default/avatar-120.png",
+            "liangpin": true,
+            "sign_food_seller_promise": true,
+            "has_shop": true,
+            "is_lightning_consignment": true,
+            "has_sub_stock": true,
+            "is_golden_seller": true,
+            "vip_info": "v1",
+            "email": "xiaoming@taobao.com",
+            "magazine_subscribe": true,
+            "vertical_market": "3C,shoes",
+            "online_gaming": true
+        }
+    }
+}

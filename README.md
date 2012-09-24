@@ -24,6 +24,23 @@ client.taobao_user_get({nick: 'qleelulu', fields: 'user_id,nick,seller_credit'},
 });
 ```
 
+## APIs
+
+You can find all the [Taobao open APIs](http://open.taobao.com/doc/api_list.htm?id=102).
+
+* User
+ * taobao.user.buyer.get 查询买家信息API
+ * taobao.user.get 获取单个用户信息
+ * taobao.user.seller.get 查询卖家用户信息
+ * taobao.users.get 获取多个用户信息
+* Category (Working)
+ * taobao.itemcats.authorize.get 查询商家被授权品牌列表和类目列表
+ * taobao.itemcats.get 获取后台供卖家发布商品的标准商品类目
+ * taobao.itemcats.increment.get 增量获取后台类目数据
+ * taobao.itemprops.get 获取标准商品类目属性
+ * taobao.itempropvalues.get 获取标准类目属性值
+ * taobao.topats.itemcats.get 全量获取后台类目数据
+
 ## Running Tests
 
 To run the test suite first invoke the following command within the repo, installing the development dependencies:
