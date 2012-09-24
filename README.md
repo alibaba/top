@@ -6,27 +6,35 @@
 
 ## Install
 
-```
+```bash
 $ npm install top
 ```
 
-require `top`
+## Usage
 
-```
+```js
 var top = require('top');
+var client = top.createClient({
+  appkey: 'your key',
+  appsecret: 'your secret'
+});
+// invoke 'taobao.user.get': http://api.taobao.com/apidoc/api.htm?path=cid:1-apiId:1
+client.taobao_user_get({nick: 'qleelulu', fields: 'user_id,nick,seller_credit'}, function (err, user) {
+  console.log(user);
+});
 ```
 
 ## Running Tests
 
 To run the test suite first invoke the following command within the repo, installing the development dependencies:
 
-```
+```bash
 $ npm install
 ```
 
 then run the tests:
 
-```
+```bash
 $ make test
 ```
 
