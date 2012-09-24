@@ -38,6 +38,8 @@ then run the tests:
 $ make test
 ```
 
+jscoverage: [**98%**](http://fengmk2.github.com/coverage/top.html)
+
 ## License 
 
 (The MIT License)
