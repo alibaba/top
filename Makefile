@@ -8,7 +8,8 @@ test:
 		--reporter $(REPORTER) --timeout $(TESTTIMEOUT) $(TESTS)
 
 test-cov: lib-cov
-	@TOPCOV=1 $(MAKE) test REPORTER=html-cov > coverage.html && open coverage.html
+	@TOPCOV=1 $(MAKE) test REPORTER=dot
+	@TOPCOV=1 $(MAKE) test REPORTER=html-cov > coverage.html
 
 lib-cov: clean
 	@rm -rf ./$@

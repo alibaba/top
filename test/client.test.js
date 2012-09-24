@@ -10,6 +10,7 @@
 
 var top = require('../');
 var should = require('should');
+var urllib = require('urllib');
 
 var REST_URL = 'http://gw.api.tbsandbox.com/router/rest';
 
@@ -89,6 +90,44 @@ describe('client.test.js', function () {
         err.message.should.equal('22: Invalid method');
         err.code.should.equal(22);
         err.data.should.equal('{"error_response":{"code":22,"msg":"Invalid method"}}');
+        done();
+      });
+    });
+  });
+
+  describe('invoke()', function () {
+    var _request = urllib.request;
+    afterEach(function () {
+      urllib.request = _request;
+    });
+
+    it('should mock urllib.request() error', function (done) {
+      urllib.request = function (url, options, callback) {
+        process.nextTick(function () {
+          callback(new Error('mock error'));
+        });
+      };
+      client.invoke('taobao.shop.get', {nick: 'abc', fields: '123'}, [], null, 'GET',
+      function (err, item) {
+        should.exist(err);
+        should.not.exist(item);
+        err.should.have.property('message', 'mock error');
+        done();
+      });
+    });
+
+    it('should mock urllib.request() json parse error', function (done) {
+      urllib.request = function (url, options, callback) {
+        process.nextTick(function () {
+          callback(null, '{');
+        });
+      };
+      client.invoke('taobao.shop.get', {nick: 'abc', fields: '123'}, [], null, 'GET',
+      function (err, item) {
+        should.exist(err);
+        should.not.exist(item);
+        err.should.have.property('message', 'Unexpected end of input');
+        err.should.have.property('name', 'SyntaxError');
         done();
       });
     });
@@ -184,14 +223,38 @@ describe('client.test.js', function () {
   });
 
   describe('tmall_selected_items_search()', function () {
+    var mockData = JSON.stringify({
+      "tmall_selected_items_search_response": {
+        "item_list": {
+          "selected_item": [{
+            "cid": 1101,
+            "num_iid": 13088700250,
+            "shop_id": 59227746,
+            "item_score": "67.33659988217163"
+          }]
+        }
+      }
+    });
+    var _request = urllib.request;
+    after(function () {
+      urllib.request = _request;
+    });
     // api permission required
-    xit('should return items', function (done) {
+    it('should return items', function (done) {
+      urllib.request = function (url, options, callback) {
+        process.nextTick(function () {
+          callback(null, mockData);
+        });
+      };
       client.tmall_selected_items_search({cid: 50016349}, function (err, items) {
         should.not.exist(err);
-        client.taobao_item_get({num_iid:items[0].num_iid, fields:'item_img.url,title,price'}, 
-        function (err, item){
-          done();
-        });
+        should.exist(items);
+        items.should.be.an.instanceof(Array).with.length(1);
+        items[0].should.have.keys('cid', 'num_iid', 'shop_id', 'item_score');
+        client.taobao_item_get({
+          num_iid: items[0].num_iid, 
+          fields:'item_img.url,title,price'
+        }, done);
       }); 
     });
   });

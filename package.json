@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "urllib": ">=0.2.8",
-    "moment": ">=1.7.0"
+    "moment": ">=1.7.0",
+    "agentkeepalive": ">=0.1.5"
   },
   "devDependencies": {
     "should": "*",
