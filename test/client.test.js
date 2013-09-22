@@ -79,9 +79,10 @@ describe('client.test.js', function () {
     });
 
     it('should throw error when method miss', function () {
-      (function () {
-        client.request({});
-      }).should.throw('`method` required');
+      client.request({}, function (err) {
+        should.exist(err);
+        err.message.should.equal('`method` required');
+      });
     });
 
     it('should return error when method wrong', function (done) {
@@ -166,9 +167,10 @@ describe('client.test.js', function () {
     });
 
     it('should throw error when nick miss', function () {
-      (function () {
-        client.taobao_user_buyer_get({fields: 'sex,nick'}, function (err, user) {});
-      }).should.throw('`session` required');
+      client.taobao_user_buyer_get({fields: 'sex,nick'}, function (err, user) {
+        should.exist(err);
+        err.message.should.equal('`session` required');
+      });
     });
   });
 
@@ -213,9 +215,10 @@ describe('client.test.js', function () {
     });
 
     it('should throw error when nick miss', function () {
-      (function () {
-        client.taobao_user_seller_get({fields: 'sex,nick'}, function (err, user) {});
-      }).should.throw('`session` required');
+      client.taobao_user_seller_get({fields: 'sex,nick'}, function (err, user) {
+        should.exist(err);
+        err.message.should.equal('`session` required');
+      });
     });
   });
 
@@ -240,9 +243,10 @@ describe('client.test.js', function () {
     });
 
     it('should throw error when nick miss', function () {
-      (function () {
-        client.taobao_user_get({fields: 'user_id,nick'}, function (err, user) {});
-      }).should.throw('`nick` required');
+      client.taobao_user_get({fields: 'user_id,nick'}, function (err, user) {
+        should.exist(err);
+        err.message.should.equal('`nick` required');
+      });
     });
   });
 
@@ -301,9 +305,10 @@ describe('client.test.js', function () {
     });
 
     it('should throw error when nicks miss', function () {
-      (function () {
-        client.taobao_users_get({ fields: 'user_id,nick' }, function (err, user) {});
-      }).should.throw('`nicks` required');
+      client.taobao_users_get({ fields: 'user_id,nick' }, function (err, user) {
+        should.exist(err);
+        err.message.should.be.equal('`nicks` required');
+      });
     });
   });
 
