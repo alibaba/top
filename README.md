@@ -1,6 +1,7 @@
-# top
-
+# top 
 [![Build Status](https://secure.travis-ci.org/fengmk2/top.png)](http://travis-ci.org/fengmk2/top)
+[![Coverage Status](https://coveralls.io/repos/fengmk2/top/badge.png)](https://coveralls.io/r/fengmk2/top)
+[![Build Status](https://drone.io/github.com/fengmk2/top/status.png)](https://drone.io/github.com/fengmk2/top/latest)
 
 [Taobao Open API](http://open.taobao.com/) Client.
 
@@ -55,13 +56,27 @@ then run the tests:
 $ make test
 ```
 
-jscoverage: [**98%**](http://fengmk2.github.com/coverage/top.html)
+## Authors
+
+```bash
+$ git summary 
+
+ project  : top
+ repo age : 1 year, 7 months
+ active   : 7 days
+ commits  : 19
+ files    : 13
+ authors  : 
+    15  fengmk2                 78.9%
+     3  Jackson Tian            15.8%
+     1  coolme200               5.3%
+```
 
 ## License 
 
 (The MIT License)
 
-Copyright (c) 2011-2012 fengmk2 &lt;fengmk2@gmail.com&gt;
+Copyright (c) 2011-2013 fengmk2 &lt;fengmk2@gmail.com&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
