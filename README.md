@@ -54,7 +54,7 @@ $ npm install
 then run the tests:
 
 ```bash
-$ make test
+$ npm test
 ```
 
 ## Authors
@@ -64,13 +64,13 @@ $ git summary
 
  project  : top
  repo age : 1 year, 7 months
- active   : 7 days
- commits  : 19
+ active   : 8 days
+ commits  : 21
  files    : 13
  authors  : 
-    15  fengmk2                 78.9%
-     3  Jackson Tian            15.8%
-     1  coolme200               5.3%
+    17  fengmk2                 81.0%
+     3  Jackson Tian            14.3%
+     1  coolme200               4.8%
 ```
 
 ## License 

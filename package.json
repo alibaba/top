@@ -1,6 +1,6 @@
 {
   "name": "top",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Taobao Open API Client.",
   "keywords": ["top", "taobao", "open api", "top client"],
   "author": "fengmk2 <fengmk2@gmail.com> (http://github.com/fengmk2)",
@@ -11,7 +11,7 @@
     "url": "git://github.com/fengmk2/top.git"
   },
   "scripts": {
-    "test": "make test",
+    "test": "make test-all",
     "blanket": { "pattern": "top/lib" },
     "travis-cov": { "threshold": 96 }
   },
