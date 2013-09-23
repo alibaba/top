@@ -391,6 +391,10 @@ describe('client.test.js', function () {
       client.taobao_shop_get({nick: 'sandbox_c_1', fields: 'sid,cid,title,nick,desc,bulletin,pic_path,created,modified'},
       function (err, item) {
         should.exist(err);
+        err.name.should.equal('TOPClientError');
+        err.message.should.include('Insufficient isv permissions, code 11; isv.permission-ip-whitelist-limit: ');
+        err.code.should.equal(11);
+        err.sub_code.should.equal('isv.permission-ip-whitelist-limit');
         should.not.exists(item);
         done();
       });
