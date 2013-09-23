@@ -1,6 +1,6 @@
 /*!
  * top - test/client.test.js
- * Copyright(c) 2012 fengmk2 <fengmk2@gmail.com>
+ * Copyright(c) 2012 - 2013 fengmk2 <fengmk2@gmail.com>
  * MIT Licensed
  */
 
@@ -8,9 +8,10 @@
  * Module dependencies.
  */
 
-var top = require('../');
 var should = require('should');
+var mm = require('mm');
 var urllib = require('urllib');
+var top = require('../');
 
 var REST_URL = 'http://gw.api.tbsandbox.com/router/rest';
 
@@ -20,6 +21,8 @@ describe('client.test.js', function () {
     appsecret: 'sandboxbc0042b2231100842349ad492',
     REST_URL: REST_URL
   });
+
+  afterEach(mm.restore);
 
   describe('new Client()', function () {
     it('should throw error when miss appkey or appsecret', function () {
@@ -78,17 +81,18 @@ describe('client.test.js', function () {
       });
     });
 
-    it('should throw error when method miss', function () {
+    it('should throw error when method miss', function (done) {
       client.request({}, function (err) {
         should.exist(err);
         err.message.should.equal('`method` required');
+        done();
       });
     });
 
     it('should return error when method wrong', function (done) {
       client.request({ method: 'not_exists' }, function (err, data) {
         should.exist(err);
-        err.message.should.equal('22: Invalid method');
+        err.message.should.equal('Invalid method, code 22');
         err.code.should.equal(22);
         err.data.should.equal('{"error_response":{"code":22,"msg":"Invalid method"}}');
         done();
@@ -157,19 +161,24 @@ describe('client.test.js', function () {
       });
     });
 
-    it('should return null when nick not exists', function (done) {
+    it('should return null when session wrong', function (done) {
       client.taobao_user_buyer_get({session: 'mock', fields: 'sex,nick', nick: 'alipublic01notexists'}, 
       function (err, user) {
-        should.not.exist(err);
+        should.exist(err);
+        err.name.should.equal('TOPClientError');
+        err.message.should.equal('Invalid session, code 27; sessionkey-not-generated-by-server: RealSession don&apos;t create by top ! appKey is : 1021178166');
+        err.code.should.equal(27);
+        err.sub_code.should.equal('sessionkey-not-generated-by-server');
         should.not.exist(user);
         done();
       });
     });
 
-    it('should throw error when nick miss', function () {
+    it('should throw error when nick miss', function (done) {
       client.taobao_user_buyer_get({fields: 'sex,nick'}, function (err, user) {
         should.exist(err);
         err.message.should.equal('`session` required');
+        done();
       });
     });
   });
@@ -205,19 +214,22 @@ describe('client.test.js', function () {
       });
     });
 
-    it('should return null when nick not exists', function (done) {
+    it('should return err when session wrong', function (done) {
       client.taobao_user_seller_get({session: 'mock', fields: 'sex,nick', nick: 'alipublic01notexists'}, 
       function (err, user) {
-        should.not.exist(err);
+        should.exist(err);
+        err.name.should.equal('TOPClientError');
+        err.message.should.equal('Invalid session, code 27; sessionkey-not-generated-by-server: RealSession don&apos;t create by top ! appKey is : 1021178166');
         should.not.exist(user);
         done();
       });
     });
 
-    it('should throw error when nick miss', function () {
+    it('should throw error when nick miss', function (done) {
       client.taobao_user_seller_get({fields: 'sex,nick'}, function (err, user) {
         should.exist(err);
         err.message.should.equal('`session` required');
+        done();
       });
     });
   });
@@ -242,10 +254,11 @@ describe('client.test.js', function () {
       });
     });
 
-    it('should throw error when nick miss', function () {
+    it('should throw error when nick miss', function (done) {
       client.taobao_user_get({fields: 'user_id,nick'}, function (err, user) {
         should.exist(err);
         err.message.should.equal('`nick` required');
+        done();
       });
     });
   });
@@ -364,6 +377,21 @@ describe('client.test.js', function () {
       function (err, item) {
         should.not.exist(err);
         should.not.exist(item);
+        done();
+      });
+    });
+
+    it('should return mock error', function (done) {
+      var errRes = { 
+        error_response: { code: 11,
+         msg: 'Insufficient isv permissions',
+         sub_code: 'isv.permission-ip-whitelist-limit',
+         sub_msg: 'The appkey 4272 is only allowed to call from 10.232.*.*,10.13.*.*,10.62.*.*,10.20.*.*,10.235.*.*,110.75.*.*,10.32.*.*,10.14.*.*,10.12.*.*,10.250.*.*,10.253.*.*,10.17.*.*,10.9.*.*,10.7.*.*,10.33.*.*,10.5.*.*,10.1.*.*,127.0.*.*,10.209.*.*,10.208.*.*,10.249.*.*,10.8.*.*, but your ip is 10.68.179.114' } };
+      mm.http.request(/\//, JSON.stringify(errRes));
+      client.taobao_shop_get({nick: 'sandbox_c_1', fields: 'sid,cid,title,nick,desc,bulletin,pic_path,created,modified'},
+      function (err, item) {
+        should.exist(err);
+        should.not.exists(item);
         done();
       });
     });

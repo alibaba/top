@@ -11,19 +11,27 @@
     "url": "git://github.com/fengmk2/top.git"
   },
   "scripts": {
-    "test": "make test"
+    "test": "make test",
+    "blanket": { "pattern": "top/lib" },
+    "travis-cov": { "threshold": 96 }
   },
   "dependencies": {
-    "urllib": ">=0.2.8",
-    "moment": ">=1.7.0",
+    "urllib": ">=0.5.2",
+    "moment": ">=2.2.1",
+    "utility": ">=0.1.0",
     "agentkeepalive": ">=0.1.5"
   },
   "devDependencies": {
+    "mm": "*",
     "should": "*",
-    "mocha": "*"
+    "mocha": "*",
+    "blanket": "*",
+    "travis-cov": "*",
+    "coveralls": "*",
+    "mocha-lcov-reporter": "*"
   },
   "engines": {
-    "node": ">=v0.6.10"
+    "node": ">=0.8"
   },
   "license": "MIT"
 }

@@ -1,7 +1,6 @@
 # top 
 [![Build Status](https://secure.travis-ci.org/fengmk2/top.png)](http://travis-ci.org/fengmk2/top)
 [![Coverage Status](https://coveralls.io/repos/fengmk2/top/badge.png)](https://coveralls.io/r/fengmk2/top)
-[![Build Status](https://drone.io/github.com/fengmk2/top/status.png)](https://drone.io/github.com/fengmk2/top/latest)
 
 [Taobao Open API](http://open.taobao.com/) Client.
 
@@ -41,6 +40,8 @@ You can find all the [Taobao open APIs](http://open.taobao.com/doc/api_list.htm?
  * taobao.itemprops.get 获取标准商品类目属性
  * taobao.itempropvalues.get 获取标准类目属性值
  * taobao.topats.itemcats.get 全量获取后台类目数据
+* Shop
+ * taobao.shop.get (白名单用户才能调用)
 
 ## Running Tests
 

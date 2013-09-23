@@ -1,23 +1,27 @@
-SRC = $(shell find lib -type f -name "*.js")
 TESTS = test/*.test.js
 TESTTIMEOUT = 10000
 REPORTER = spec
 MOCHA_OPTS =
 
-test:
+install:
+	@npm install
+
+test: install
 	@NODE_ENV=test ./node_modules/.bin/mocha \
 		--reporter $(REPORTER) --timeout $(TESTTIMEOUT) $(MOCHA_OPTS) $(TESTS)
 
-test-cov: lib-cov
-	@TOPCOV=1 $(MAKE) test REPORTER=dot
-	@TOPCOV=1 $(MAKE) test REPORTER=html-cov > coverage.html
+test-cov:
+	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=travis-cov
 
-lib-cov: clean
-	@rm -rf ./$@
-	@jscoverage lib $@
-
-clean:
-	@rm -rf lib-cov
+test-cov-html:
 	@rm -f coverage.html
+	@$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=html-cov > coverage.html
+	@ls -lh coverage.html
 
-.PHONY: test test-cov lib-cov clean
+test-coveralls: test
+	@echo TRAVIS_JOB_ID $(TRAVIS_JOB_ID)
+	@-$(MAKE) test MOCHA_OPTS='--require blanket' REPORTER=mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js
+
+test-all: test test-cov
+
+.PHONY: test
