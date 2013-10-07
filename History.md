@@ -1,4 +1,10 @@
 
+0.2.0 / 2013-10-07 
+==================
+
+  * fixed #8 change long id from Number to String temporary.
+  * improve test case
+
 0.1.1 / 2013-09-23 
 ==================
 

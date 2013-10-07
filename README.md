@@ -64,20 +64,20 @@ $ git summary
 
  project  : top
  repo age : 1 year, 7 months
- active   : 8 days
- commits  : 21
- files    : 13
+ active   : 9 days
+ commits  : 24
+ files    : 14
  authors  : 
-    17  fengmk2                 81.0%
-     3  Jackson Tian            14.3%
-     1  coolme200               4.8%
+    20  fengmk2                 83.3%
+     3  Jackson Tian            12.5%
+     1  coolme200               4.2%
 ```
 
 ## License 
 
 (The MIT License)
 
-Copyright (c) 2011-2013 fengmk2 &lt;fengmk2@gmail.com&gt;
+Copyright (c) 2011 - 2013 fengmk2 &lt;fengmk2@gmail.com&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
