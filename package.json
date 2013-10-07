@@ -3,7 +3,7 @@
   "version": "0.1.1",
   "description": "Taobao Open API Client.",
   "keywords": ["top", "taobao", "open api", "top client"],
-  "author": "fengmk2 <fengmk2@gmail.com> (http://github.com/fengmk2)",
+  "author": "fengmk2 <fengmk2@gmail.com> (http://fengmk2.github.com/)",
   "homepage": "http://github.com/fengmk2/top",
   "main": "index.js",
   "repository": {
@@ -18,7 +18,7 @@
   "dependencies": {
     "urllib": ">=0.5.2",
     "moment": ">=2.2.1",
-    "utility": ">=0.1.0",
+    "utility": ">=0.1.2",
     "agentkeepalive": ">=0.1.5"
   },
   "devDependencies": {

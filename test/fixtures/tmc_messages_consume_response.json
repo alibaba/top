@@ -1,0 +1,1 @@
+{"tmc_messages_consume_response":{"messages":{"tmc_message":[{"user_id":123456789,"user_nick":"usernick","content":"{\"nick\":\"usernick\",\"increment\":1,\"num\":502,\"changed_fields\":\"num\",\"num_iid\":15380658823}","id":7104300007405429232,"pub_time":"2013-10-05 10:55:58","pub_app_key":"12499723","topic":"taobao_item_ItemStockChanged"}]}}}

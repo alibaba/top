@@ -11,6 +11,8 @@
 var should = require('should');
 var mm = require('mm');
 var urllib = require('urllib');
+var fs = require('fs');
+var path = require('path');
 var top = require('../');
 
 var REST_URL = 'http://gw.api.tbsandbox.com/router/rest';
@@ -97,6 +99,16 @@ describe('client.test.js', function () {
         err.data.should.equal('{"error_response":{"code":22,"msg":"Invalid method"}}');
         done();
       });
+    });
+  });
+
+  describe('_wrapJSON()', function () {
+    it('should convert long id number to string', function () {
+      var s = fs.readFileSync(path.join(__dirname, 'fixtures', 'tmc_messages_consume_response.json')).toString();
+      s = client._wrapJSON(s);
+      var o = JSON.parse(s);
+      // console.log('%s, %j', s, o.tmc_messages_consume_response.messages)
+      o.tmc_messages_consume_response.messages.tmc_message[0].id.should.equal('7104300007405429232');
     });
   });
 
