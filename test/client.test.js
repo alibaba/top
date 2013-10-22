@@ -27,6 +27,13 @@ describe('client.test.js', function () {
   afterEach(mm.restore);
 
   describe('new Client()', function () {
+    it('should return Client', function () {
+      var client = new top.Client({appkey: 'key', appsecret: 'secret'});
+      client.should.be.instanceof(top.Client);
+      var clientWithoutNew = top.Client({appkey: 'key', appsecret: 'secret'});
+      clientWithoutNew.should.be.instanceof(top.Client);
+    });
+
     it('should throw error when miss appkey or appsecret', function () {
       (function () {
         top.createClient();
@@ -41,7 +48,6 @@ describe('client.test.js', function () {
   });
 
   describe('sign() http://open.taobao.com/doc/detail.htm?id=111#s6', function () {
-
     it('should equal 990FD28323F67A1EEC29336EDF373C0E', function () {
       var c = top.createClient({
         appkey: 'test',
@@ -281,7 +287,7 @@ describe('client.test.js', function () {
       function (err, users) {
         should.not.exist(err);
         users.should.length(2);
-        for (var i = users.length; i--; ) {
+        for (var i = users.length; i--;) {
           var user = users[i];
           user.should.have.keys(['seller_credit', 'nick']);
           user.nick.should.equal(i === 0 ? 'sandbox_c_2' : 'sandbox_c_1');
@@ -297,7 +303,7 @@ describe('client.test.js', function () {
       }, function (err, users) {
         should.not.exist(err);
         users.should.length(4);
-        for (var i = users.length; i--; ) {
+        for (var i = users.length; i--;) {
           var user = users[i];
           user.should.have.keys(['nick']);
           user.nick.should.match(/sandbox_c_\d/);
@@ -311,7 +317,7 @@ describe('client.test.js', function () {
       function (err, users) {
         should.not.exist(err);
         users.should.length(1);
-        for (var i = users.length; i--; ) {
+        for (var i = users.length; i--;) {
           var user = users[i];
           user.should.have.keys(['nick']);
           user.nick.should.equal('sandbox_c_3');
@@ -367,10 +373,75 @@ describe('client.test.js', function () {
         items.should.be.an.instanceof(Array).with.length(1);
         items[0].should.have.keys('cid', 'num_iid', 'shop_id', 'item_score');
         client.taobao_item_get({
-          num_iid: items[0].num_iid, 
-          fields:'item_img.url,title,price'
+          num_iid: items[0].num_iid,
+          fields: 'item_img.url,title,price'
         }, done);
-      }); 
+      });
+    });
+
+    it('should return parameter missing error', function (done) {
+      client.tmall_selected_items_search({}, function (err, items) {
+        should.exist(err);
+        err.name.should.equal('ParameterMissingError');
+        err.message.should.equal('`cid` required');
+        done();
+      });
+    });
+  });
+
+  describe('taobao_jindoucloud_message_send()', function () {
+    var mockData = JSON.stringify({
+      "jindoucloud_message_send_response": {
+        "send_results": {
+          "message_send_result": [{
+            "nick": "nick",
+            "err_msg": "nick is null",
+            "err_code": "isv.invalid-parameter",
+            "is_success": "false"
+          }]
+        }
+      }
+    });
+
+    before(function () {
+      mm.data(urllib, 'request', mockData);
+    });
+
+    after(function () {
+      mm.restore();
+    });
+
+    // api permission required
+    it('should return items', function (done) {
+      var params = {
+        messages: [{
+          "nick": "nick",
+          "title": "title",
+          "view_data": ["a", "b"],
+          "biz_data": {"k1": "v1", "k2": "v2"},
+          "biz_id": 0,
+          "send_no": 0,
+          "msg_category": "item",
+          "msg_type": "ItemCreate"
+        }]
+      };
+      client.taobao_jindoucloud_message_send(params, function (err, items) {
+        should.not.exist(err);
+        should.exist(items);
+        items.should.be.an.instanceof(Array).with.length(1);
+        items[0].should.have.keys('nick', 'err_msg', 'err_code', 'is_success');
+        done();
+      });
+    });
+
+    it('should return parameter missing error', function (done) {
+      var params = {};
+      client.taobao_jindoucloud_message_send(params, function (err, items) {
+        should.exist(err);
+        err.name.should.equal('ParameterMissingError');
+        err.message.should.equal('`messages` required');
+        done();
+      });
     });
   });
 
@@ -393,12 +464,24 @@ describe('client.test.js', function () {
       });
     });
 
+    it('should return parameter missing error', function (done) {
+      client.taobao_shop_get({}, function (err, items) {
+        should.exist(err);
+        err.name.should.equal('ParameterMissingError');
+        err.message.should.equal('`nick` required');
+        done();
+      });
+    });
+
     it('should return mock error', function (done) {
-      var errRes = { 
-        error_response: { code: 11,
-         msg: 'Insufficient isv permissions',
-         sub_code: 'isv.permission-ip-whitelist-limit',
-         sub_msg: 'The appkey 4272 is only allowed to call from 10.232.*.*,10.13.*.*,10.62.*.*,10.20.*.*,10.235.*.*,110.75.*.*,10.32.*.*,10.14.*.*,10.12.*.*,10.250.*.*,10.253.*.*,10.17.*.*,10.9.*.*,10.7.*.*,10.33.*.*,10.5.*.*,10.1.*.*,127.0.*.*,10.209.*.*,10.208.*.*,10.249.*.*,10.8.*.*, but your ip is 10.68.179.114' } };
+      var errRes = {
+        error_response: {
+          code: 11,
+          msg: 'Insufficient isv permissions',
+          sub_code: 'isv.permission-ip-whitelist-limit',
+          sub_msg: 'The appkey 4272 is only allowed to call from 10.232.*.*,10.13.*.*,10.62.*.*,10.20.*.*,10.235.*.*,110.75.*.*,10.32.*.*,10.14.*.*,10.12.*.*,10.250.*.*,10.253.*.*,10.17.*.*,10.9.*.*,10.7.*.*,10.33.*.*,10.5.*.*,10.1.*.*,127.0.*.*,10.209.*.*,10.208.*.*,10.249.*.*,10.8.*.*, but your ip is 10.68.179.114'
+        }
+      };
       mm.http.request(/\//, JSON.stringify(errRes));
       client.taobao_shop_get({nick: 'sandbox_c_1', fields: 'sid,cid,title,nick,desc,bulletin,pic_path,created,modified'},
       function (err, item) {
@@ -412,5 +495,4 @@ describe('client.test.js', function () {
       });
     });
   });
-
 });
