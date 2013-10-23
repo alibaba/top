@@ -393,7 +393,7 @@ describe('client.test.js', function () {
     var mockData = JSON.stringify({
       "jindoucloud_message_send_response": {
         "send_results": {
-          "message_send_result": [{
+          "send_result": [{
             "nick": "nick",
             "err_msg": "nick is null",
             "err_code": "isv.invalid-parameter",
