@@ -1,5 +1,7 @@
 # top [![Build Status](https://secure.travis-ci.org/fengmk2/top.png)](http://travis-ci.org/fengmk2/top) [![Coverage Status](https://coveralls.io/repos/fengmk2/top/badge.png)](https://coveralls.io/r/fengmk2/top)
 
+[![NPM](https://nodei.co/npm/top.png?downloads=true&stars=true)](https://nodei.co/npm/top/)
+
 [Taobao Open API](http://open.taobao.com/) Client.
 
 ## Install
@@ -58,20 +60,20 @@ $ npm test
 ## Authors
 
 ```bash
-$ git summary 
+$ git summary
 
  project  : top
  repo age : 1 year, 8 months
  active   : 11 days
  commits  : 27
  files    : 15
- authors  : 
+ authors  :
     22  fengmk2                 81.5%
      4  Jackson Tian            14.8%
      1  coolme200               3.7%
 ```
 
-## License 
+## License
 
 (The MIT License)
 
