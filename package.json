@@ -18,7 +18,7 @@
   "dependencies": {
     "urllib": ">=0.5.2",
     "utility": ">=0.1.2",
-    "agentkeepalive": "0.1.5"
+    "agentkeepalive": "^3.3.0"
   },
   "devDependencies": {
     "mm": "*",
